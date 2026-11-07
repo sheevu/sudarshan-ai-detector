@@ -62,10 +62,12 @@ class DetectResponse(BaseModel):
     timestamp: str
 
 @app.get("/health")
+@app.get("/api/health")
 def health():
     return {"status": "ok", "version": "0.1.0", "detectors": ["perplexity","burstiness","stylometry","zero_shot","transformer","perturbation","watermark"]}
 
 @app.get("/models")
+@app.get("/api/models")
 def list_models():
     return {
         "models": [
@@ -77,6 +79,7 @@ def list_models():
     }
 
 @app.post("/detect", response_model=DetectResponse)
+@app.post("/api/detect", response_model=DetectResponse)
 def detect_text(req: DetectRequest, detector: SudarshanDetector = Depends(get_detector)):
     if not req.text.strip():
         raise HTTPException(status_code=400, detail="Empty text")
@@ -88,6 +91,7 @@ def detect_text(req: DetectRequest, detector: SudarshanDetector = Depends(get_de
     return clean
 
 @app.post("/detect_mixed")
+@app.post("/api/detect_mixed")
 def detect_mixed(req: DetectRequest, detector: SudarshanDetector = Depends(get_detector)):
     result = detector.detect(req.text, language=req.language)
     return {"is_mixed": result.get("mixed_authorship", {}).get("is_mixed"), "sections": result.get("mixed_authorship", {}).get("sections"), "overall": result.get("overall_classification")}
