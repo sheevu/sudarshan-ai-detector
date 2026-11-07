@@ -22,6 +22,7 @@
     "sudarshan-ai-detector": {
       "root": "sudarshan-ai-detector",
       "framework": "fastapi",
+      "entrypoint": "scripts/api.py",
       "rewrites": [
         {
           "source": "/api/:path(.*)?",
