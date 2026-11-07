@@ -1,0 +1,25 @@
+models:
+  perplexity_model: distilgpt2
+  transformer_model: xlm-roberta-base
+  indic_model: ai4bharat/indic-bert
+  perturbation_model: t5-small
+thresholds:
+  ai: 0.65
+  human: 0.35
+  min_words: 50
+  min_chars: 200
+fusion:
+  weights:
+    perplexity: 0.15
+    burstiness: 0.15
+    stylometry: 0.15
+    transformer: 0.20
+    zero_shot: 0.10
+    trained_fusion: 0.35
+    perturbation: 0.10
+    watermark: 0.05
+  calibration: isotonic
+languages: [en, hi, hinglish, bn, ta, te, mr, gu, kn, ml, pa]
+privacy:
+  store_content: false
+  max_length: 20000

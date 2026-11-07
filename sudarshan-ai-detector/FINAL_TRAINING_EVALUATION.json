@@ -1,0 +1,98 @@
+{
+  "version": "0.2.0",
+  "training": {
+    "auroc": 1.0,
+    "fpr": 0.0,
+    "fnr": 0.0,
+    "num_train": 1699,
+    "num_val": 374,
+    "features": [
+      "burstiness_ai",
+      "burstiness_score",
+      "cv",
+      "stylometry_ai",
+      "ttr",
+      "repetition",
+      "para_cv",
+      "zero_shot_ai",
+      "hapax",
+      "norm_words",
+      "norm_chars",
+      "lang_en",
+      "lang_hi",
+      "lang_hinglish"
+    ],
+    "model_type": "randomforest",
+    "timestamp": "2026-11-04T12:27:55.655974",
+    "note": "Trained on synthetic open dataset + scanned past AI content, no paid APIs"
+  },
+  "test_metrics": {
+    "auroc": 1.0,
+    "fpr": 0.0,
+    "fnr": 0.005434782608666116
+  },
+  "dataset_stats": {
+    "train": 1699,
+    "val": 374,
+    "test": 367,
+    "total": 2440
+  },
+  "live_evaluation": {
+    "human_en_long": {
+      "classification": "Likely Human",
+      "ai_likelihood": 0.1881610845231107,
+      "language": "en",
+      "confidence": 0.9370881946933993,
+      "trained_fusion_score": 0.117563607430799
+    },
+    "ai_en_formal": {
+      "classification": "Likely AI",
+      "ai_likelihood": 0.9166840006942105,
+      "language": "en",
+      "confidence": 0.9938841580859288,
+      "trained_fusion_score": 0.95
+    },
+    "human_hi": {
+      "classification": "Likely Human",
+      "ai_likelihood": 0.22755961545325748,
+      "language": "hi",
+      "confidence": 0.8497648510845028,
+      "trained_fusion_score": 0.12332785897124485
+    },
+    "ai_hi": {
+      "classification": "Likely AI",
+      "ai_likelihood": 0.8999999999999999,
+      "language": "hi",
+      "confidence": 0.8964982659661099,
+      "trained_fusion_score": 0.95
+    },
+    "hinglish_human": {
+      "classification": "Likely Human",
+      "ai_likelihood": 0.22204828597349024,
+      "language": "en",
+      "confidence": 0.8253553450920592,
+      "trained_fusion_score": 0.10760466679229382
+    },
+    "hinglish_ai": {
+      "classification": "Likely AI",
+      "ai_likelihood": 0.8688941340388493,
+      "language": "en",
+      "confidence": 0.9882003198313087,
+      "trained_fusion_score": 0.8955054441329648
+    },
+    "mixed": {
+      "classification": "Mixed/Edited",
+      "ai_likelihood": 0.6399490024700027,
+      "language": "en",
+      "confidence": 0.6671414755823918,
+      "trained_fusion_score": 0.7419583505239549
+    },
+    "past_generated_ai": {
+      "classification": "Likely AI",
+      "ai_likelihood": 0.8443219163906688,
+      "language": "en",
+      "confidence": 0.8795894440605581,
+      "trained_fusion_score": 0.8943219163906688
+    }
+  }
+}

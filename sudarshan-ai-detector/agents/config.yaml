@@ -1,0 +1,8 @@
+skill: sudarshan-ai-detector
+version: 0.1.0
+mcp:
+  enabled: true
+  tools: [detect_ai_text, analyze_document, detect_mixed_authorship, get_detection_report, list_detection_models]
+detection:
+  default_detectors: [perplexity, burstiness, stylometry, zero_shot]
+  optional_detectors: [transformer, perturbation, watermark]

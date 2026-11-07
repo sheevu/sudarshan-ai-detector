@@ -1,0 +1,26 @@
+openapi: 3.0.0
+info:
+  title: Sudarshan AI Detector
+  version: 0.1.0
+  description: Multilingual AI text detection
+paths:
+  /detect:
+    post:
+      summary: Detect AI text
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text: {type: string}
+                language: {type: string, default: auto}
+      responses:
+        '200':
+          description: Detection report
+  /models:
+    get:
+      summary: List models
+      responses:
+        '200':
+          description: Model list

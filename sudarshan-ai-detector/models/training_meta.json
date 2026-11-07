@@ -1,0 +1,26 @@
+{
+  "auroc": 1.0,
+  "fpr": 0.0,
+  "fnr": 0.005181347150232221,
+  "num_train": 1702,
+  "num_val": 374,
+  "features": [
+    "burstiness_ai",
+    "burstiness_score",
+    "cv",
+    "stylometry_ai",
+    "ttr",
+    "repetition",
+    "para_cv",
+    "zero_shot_ai",
+    "hapax",
+    "norm_words",
+    "norm_chars",
+    "lang_en",
+    "lang_hi",
+    "lang_hinglish"
+  ],
+  "model_type": "randomforest",
+  "timestamp": "2026-11-07T13:28:39.000172",
+  "note": "Trained on synthetic open dataset + scanned past AI content, no paid APIs"
+}

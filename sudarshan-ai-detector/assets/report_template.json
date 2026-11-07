@@ -1,0 +1,14 @@
+{
+  "overall_classification": "Likely Human | Likely AI | Mixed/Edited | Inconclusive",
+  "ai_likelihood": 0.0,
+  "detected_language": "en",
+  "word_count": 0,
+  "token_count": 0,
+  "detection_methods_used": [],
+  "individual_findings": {},
+  "ai_like_sections": [],
+  "uncertainty": {"confidence": 0.0, "disagreement": 0.0},
+  "limitations": [],
+  "model_versions": {},
+  "timestamp": ""
+}
