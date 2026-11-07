@@ -1,8 +1,26 @@
 [build-system]
 requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
+
 [project]
 name = "sudarshan-ai-detector"
-version = "0.1.0"
+version = "0.2.0"
 requires-python = ">=3.9"
-dependencies = ["numpy","scipy","pandas","scikit-learn","torch","transformers","fastapi","pydantic","uvicorn","langdetect","pyyaml","python-dotenv"]
+dependencies = [
+    "numpy",
+    "scipy",
+    "pandas",
+    "scikit-learn",
+    "fastapi",
+    "pydantic",
+    "uvicorn",
+    "langdetect",
+    "pyyaml",
+    "python-dotenv"
+]
+
+[tool.setuptools]
+packages = ["scripts"]
+
+[tool.setuptools.package-data]
+"*" = ["*"]
