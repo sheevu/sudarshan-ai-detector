@@ -1,61 +1,96 @@
-# Sudarshan AI Detector
-Production-ready multilingual AI detection Skill by Sudarshan AI Labs.
+# Sudarshan AI Detector — Backend & MCP Server
+Production-ready, privacy-first multilingual AI text detection engine by [Sudarshan AI Labs](https://sudarshan-ai.com/).
 
-## Quick Start
-pip install -r requirements.txt
-python -m scripts.cli --text "Your text here"
-uvicorn scripts.api:app --port 8000
-python scripts/mcp_server.py
+Supports **English, Hindi, Hinglish, and modern LLM structures** without requiring any paid APIs.
 
-See SKILL.md for architecture and references/ for methodology.
+---
 
+## Features
+- **FastAPI REST API**: High-performance HTTP server with `/detect`, `/detect_mixed`, `/health`, and `/models`.
+- **Model Context Protocol (MCP) Server**: Exposes detection tools (`detect_ai_text`, `detect_mixed_authorship`, `get_detection_report`, `list_detection_models`) to Claude Desktop, Cursor, and Antigravity.
+- **Multilingual Support**: High-accuracy detection for English, Devanagari Hindi, and Romanized Hinglish.
+- **Explainable Insights**: Sentence-level heatmaps, phrase triggers, vocabulary stylometry (TTR), and rhythm burstiness (CV).
+- **Zero Paid Dependencies**: Runs 100% offline using Scikit-Learn native models, open statistical heuristics, and optional Hugging Face transformers.
 
-## Auto-Training (v0.2.0) - Maximum Open Dataset, No Paid APIs
+---
 
-The detector has been auto-trained on maximum open synthetic dataset + scanned past AI content.
+## 1. Quick Start (REST API)
 
-### Dataset (2452 samples, fully open)
-- 500 human EN (informal, bursty, typos, personal anecdotes)
-- 500 AI EN (formal, uniform, transition words, conclusion patterns)
-- 300 human HI (Devanagari informal)
-- 300 AI HI (formal Hindi)
-- 400 human Hinglish (code-switching informal)
-- 200 AI Hinglish (formal mix)
-- 100 paraphrased AI (hard negatives)
-- 100 mixed edited
-- + scanned past AI content: all MD/PY files generated earlier as AI samples
-
-No paid libraries, no AI APIs. Uses only open-source: scikit-learn, numpy, scipy, transformers (optional).
-
-### Training Pipeline
 ```bash
-python scripts/auto_train.py
+# 1. Install dependencies
+pip install -r requirements.txt
+
+# 2. Start the FastAPI server
+uvicorn scripts.api:app --host 0.0.0.0 --port 8000
 ```
-Generates:
-- data/auto_train/full_dataset.jsonl (2452 samples)
-- data/auto_train/train.jsonl, val.jsonl, test.jsonl
-- models/tfidf_vectorizer.pkl (2000 TF-IDF 1-2grams)
-- models/fusion_model.pkl (RandomForest 200 trees, max_depth 15)
-- models/calibrator.pkl (Logistic Platt scaling)
-- models/training_meta.json, final_training_report.json
+- Interactive Swagger Documentation: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+- OpenAPI Specification: [http://127.0.0.1:8000/.well-known/openapi.yaml](http://127.0.0.1:8000/.well-known/openapi.yaml)
 
-### Performance (on synthetic held-out)
-- Validation: AUROC 1.0, FPR 0.0, FNR 0.0
-- Test (367 samples, includes paraphrased): AUROC 1.0, FPR 0.0, FNR 0.005 @0.65 threshold
-- Real-world expected lower, but separation strong:
-  - Human samples: AI likelihood ~0.05-0.16
-  - AI samples: ~0.82-0.95
-  - Low FPR prioritized
-
-### New Analyzer: trained_fusion
-Weight 0.55 in fusion, boosted to 0.75 when extreme (<0.2 or >0.8). Overrides final classification when confident:
-- tf <0.15 => Likely Human
-- tf >0.85 => Likely AI
-
-### Usage with trained model
-```python
-from scripts.detector import SudarshanDetector
-detector = SudarshanDetector() # auto-loads models/models/*.pkl if present
-result = detector.detect("Your text here")
-print(result['overall_classification'], result['ai_likelihood'])
+### Sample API Request
+```bash
+curl -X POST "http://127.0.0.1:8000/detect" \
+  -H "Content-Type: application/json" \
+  -d '{"text": "In conclusion, it is important to note that artificial intelligence offers unprecedented opportunities for exponential growth."}'
 ```
+
+---
+
+## 2. Model Context Protocol (MCP) Server Setup
+
+This repository implements the official [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) specification.
+
+### Running MCP Server via stdio
+```bash
+python -m scripts.mcp_server --transport stdio
+```
+
+### Connect to Claude Desktop (`claude_desktop_config.json`)
+Add the following to your Claude Desktop configuration file:
+```json
+{
+  "mcpServers": {
+    "sudarshan-ai-detector": {
+      "command": "python",
+      "args": ["-m", "scripts.mcp_server", "--transport", "stdio"],
+      "cwd": "/path/to/sudarshan-ai-detector"
+    }
+  }
+}
+```
+
+### Available MCP Tools
+* `detect_ai_text`: Detects AI likelihood, classification, confidence, and linguistic evidence.
+* `detect_mixed_authorship`: Analyzes multi-paragraph documents to find mixed human/AI sections.
+* `get_detection_report`: Returns a full JSON diagnostic report.
+* `list_detection_models`: Displays model weights, status, and licenses.
+
+---
+
+## 3. Docker Deployment
+```bash
+# Build Docker image
+docker build -t sudarshan-ai-backend .
+
+# Run container
+docker run -p 8000:8000 sudarshan-ai-backend
+```
+
+---
+
+## 4. Architecture & Models
+The engine ensembles 5 distinct detection signals:
+1. **Trained Random Forest Fusion**: 200 trees trained on 2,452 multilingual samples with Platt calibration.
+2. **Decimal-Safe Burstiness**: Sentence length variation (CV) with markdown header isolation.
+3. **Stylometry**: Type-Token Ratio (TTR) and paragraph uniformity.
+4. **Modern AI Phrasal Clichés**: 120+ corporate and marketing LLM markers.
+5. **Perplexity / Predictability**: N-gram entropy and function-word ratio.
+
+---
+
+## 5. Automated Tests
+```bash
+pytest tests/ -v
+```
+
+## License
+Apache-2.0 • [Sudarshan AI Labs](https://sudarshan-ai.com/)

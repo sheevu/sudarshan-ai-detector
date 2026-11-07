@@ -1,0 +1,37 @@
+{
+  "name": "sudarshan-ai-detector",
+  "version": "0.2.0",
+  "description": "Model Context Protocol (MCP) Server for Sudarshan AI Multilingual Detector",
+  "mcpServers": {
+    "sudarshan-ai-detector": {
+      "command": "python",
+      "args": [
+        "-m",
+        "scripts.mcp_server",
+        "--transport",
+        "stdio"
+      ],
+      "env": {
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  },
+  "tools": [
+    {
+      "name": "detect_ai_text",
+      "description": "Detect AI-generated text with confidence, metrics, and evidence."
+    },
+    {
+      "name": "detect_mixed_authorship",
+      "description": "Identify AI vs human sections in mixed or paraphrased documents."
+    },
+    {
+      "name": "get_detection_report",
+      "description": "Generate full explainable JSON report with all signals."
+    },
+    {
+      "name": "list_detection_models",
+      "description": "Catalog available detection models and status."
+    }
+  ]
+}
